@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HanLP.Net.Tests": {
+      "commandName": "Project",
+      "workingDirectory": "G:\\OpenSource\\HanLP.NET"
+    }
+  }
+}

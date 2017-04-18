@@ -1,0 +1,120 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5C865FB6-4A84-4913-9B7C-A7E5754D1241}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{08A43BF4-6BD0-486B-B63E-0DC9DCC93A97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{F1C85BF9-BB76-4E7A-829D-2241F489EC40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dictionary", "dictionary", "{1107F93C-7216-4F31-9EFD-5E15D0534AE2}"
+	ProjectSection(SolutionItems) = preProject
+		data\dictionary\CoreNatureDictionary.mini.txt = data\dictionary\CoreNatureDictionary.mini.txt
+		data\dictionary\CoreNatureDictionary.ngram.mini.txt = data\dictionary\CoreNatureDictionary.ngram.mini.txt
+		data\dictionary\CoreNatureDictionary.ngram.txt = data\dictionary\CoreNatureDictionary.ngram.txt
+		data\dictionary\CoreNatureDictionary.tr.txt = data\dictionary\CoreNatureDictionary.tr.txt
+		data\dictionary\CoreNatureDictionary.txt = data\dictionary\CoreNatureDictionary.txt
+		data\dictionary\stopwords.txt = data\dictionary\stopwords.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "model", "model", "{E96200B7-F633-4859-A8C9-65B354CFE6CE}"
+	ProjectSection(SolutionItems) = preProject
+		data\model\README.txt = data\model\README.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "custom", "custom", "{F064CC82-8098-43FF-8B84-F36C58B45017}"
+	ProjectSection(SolutionItems) = preProject
+		data\dictionary\custom\CustomDictionary.txt = data\dictionary\custom\CustomDictionary.txt
+		data\dictionary\custom\上海地名.txt = data\dictionary\custom\上海地名.txt
+		data\dictionary\custom\人名词典.txt = data\dictionary\custom\人名词典.txt
+		data\dictionary\custom\全国地名大全.txt = data\dictionary\custom\全国地名大全.txt
+		data\dictionary\custom\机构名词典.txt = data\dictionary\custom\机构名词典.txt
+		data\dictionary\custom\现代汉语补充词库.txt = data\dictionary\custom\现代汉语补充词库.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "organization", "organization", "{1622E21A-80FF-4B4C-A850-1E4C5143A4FD}"
+	ProjectSection(SolutionItems) = preProject
+		data\dictionary\organization\nt.tr.txt = data\dictionary\organization\nt.tr.txt
+		data\dictionary\organization\nt.txt = data\dictionary\organization\nt.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{4325B0E1-3988-483E-9C67-0AD052F7E778}"
+	ProjectSection(SolutionItems) = preProject
+		data\dictionary\other\CharTable.txt = data\dictionary\other\CharTable.txt
+		data\dictionary\other\CharType.dat.yes = data\dictionary\other\CharType.dat.yes
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "person", "person", "{B1590879-E235-41F2-975E-D76DF2AA2A1A}"
+	ProjectSection(SolutionItems) = preProject
+		data\dictionary\person\nr.tr.txt = data\dictionary\person\nr.tr.txt
+		data\dictionary\person\nr.txt = data\dictionary\person\nr.txt
+		data\dictionary\person\nrf.txt = data\dictionary\person\nrf.txt
+		data\dictionary\person\nrj.txt = data\dictionary\person\nrj.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pinyin", "pinyin", "{D59B273F-7990-4432-8927-3DD3D17F7FA3}"
+	ProjectSection(SolutionItems) = preProject
+		data\dictionary\pinyin\pinyin.txt = data\dictionary\pinyin\pinyin.txt
+		data\dictionary\pinyin\SYTDictionary.txt = data\dictionary\pinyin\SYTDictionary.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "place", "place", "{2E8E65FB-D2E0-46DC-A3D3-F2ED64B0CBC9}"
+	ProjectSection(SolutionItems) = preProject
+		data\dictionary\place\ns.tr.txt = data\dictionary\place\ns.tr.txt
+		data\dictionary\place\ns.txt = data\dictionary\place\ns.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "synonym", "synonym", "{AF31D0EF-1152-40CD-A2AC-25F3EFCE5754}"
+	ProjectSection(SolutionItems) = preProject
+		data\dictionary\synonym\CoreSynonym.txt = data\dictionary\synonym\CoreSynonym.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tc", "tc", "{488EA447-527E-4752-98A2-EDF5B819B9D2}"
+	ProjectSection(SolutionItems) = preProject
+		data\dictionary\tc\s2t.txt = data\dictionary\tc\s2t.txt
+		data\dictionary\tc\t2hk.txt = data\dictionary\tc\t2hk.txt
+		data\dictionary\tc\t2s.txt = data\dictionary\tc\t2s.txt
+		data\dictionary\tc\t2tw.txt = data\dictionary\tc\t2tw.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D56D2D1D-8A4E-40D0-88EC-6655162292AF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HanLP.Net", "src\HanLP.Net\HanLP.Net.csproj", "{497C17A2-2369-451A-B785-7EDBA1370489}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HanLP.Net.Tests", "test\HanLP.Net.Tests\HanLP.Net.Tests.csproj", "{1E04F3B8-BD39-429A-BA6D-F0AC3AA8FF08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{497C17A2-2369-451A-B785-7EDBA1370489}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{497C17A2-2369-451A-B785-7EDBA1370489}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{497C17A2-2369-451A-B785-7EDBA1370489}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{497C17A2-2369-451A-B785-7EDBA1370489}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E04F3B8-BD39-429A-BA6D-F0AC3AA8FF08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E04F3B8-BD39-429A-BA6D-F0AC3AA8FF08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E04F3B8-BD39-429A-BA6D-F0AC3AA8FF08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E04F3B8-BD39-429A-BA6D-F0AC3AA8FF08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1107F93C-7216-4F31-9EFD-5E15D0534AE2} = {F1C85BF9-BB76-4E7A-829D-2241F489EC40}
+		{E96200B7-F633-4859-A8C9-65B354CFE6CE} = {F1C85BF9-BB76-4E7A-829D-2241F489EC40}
+		{F064CC82-8098-43FF-8B84-F36C58B45017} = {1107F93C-7216-4F31-9EFD-5E15D0534AE2}
+		{1622E21A-80FF-4B4C-A850-1E4C5143A4FD} = {1107F93C-7216-4F31-9EFD-5E15D0534AE2}
+		{4325B0E1-3988-483E-9C67-0AD052F7E778} = {1107F93C-7216-4F31-9EFD-5E15D0534AE2}
+		{B1590879-E235-41F2-975E-D76DF2AA2A1A} = {1107F93C-7216-4F31-9EFD-5E15D0534AE2}
+		{D59B273F-7990-4432-8927-3DD3D17F7FA3} = {1107F93C-7216-4F31-9EFD-5E15D0534AE2}
+		{2E8E65FB-D2E0-46DC-A3D3-F2ED64B0CBC9} = {1107F93C-7216-4F31-9EFD-5E15D0534AE2}
+		{AF31D0EF-1152-40CD-A2AC-25F3EFCE5754} = {1107F93C-7216-4F31-9EFD-5E15D0534AE2}
+		{488EA447-527E-4752-98A2-EDF5B819B9D2} = {1107F93C-7216-4F31-9EFD-5E15D0534AE2}
+		{497C17A2-2369-451A-B785-7EDBA1370489} = {5C865FB6-4A84-4913-9B7C-A7E5754D1241}
+		{1E04F3B8-BD39-429A-BA6D-F0AC3AA8FF08} = {08A43BF4-6BD0-486B-B63E-0DC9DCC93A97}
+	EndGlobalSection
+EndGlobal
