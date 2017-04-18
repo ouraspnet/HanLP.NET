@@ -95,8 +95,8 @@ namespace HanLP.Net.Utility
             outStream.WriteByte((byte)((uInteger >> 0) & 0xFF));
         }
 
-        public static int ConvertTwoCharToInt(char high, char low) {
-            int result = high << 16;
+        public static uint ConvertTwoCharToInt(char high, char low) {
+            uint result = (uint)high << 16;
             result |= low;
             return result;
         }

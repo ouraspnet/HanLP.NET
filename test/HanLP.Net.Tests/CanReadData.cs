@@ -11,22 +11,14 @@ using Xunit;
 
 namespace HanLP.Net.Tests
 {
-    public class CanReadData
+    public class CanReadData : TestBase
     {
 
         [Fact]
         public void CanReadDataDirectory() {
-
-            var loggerFactory = new LoggerFactory().AddConsole();
-            var configRoot = new ConfigurationBuilder()
-                .SetBasePath(Path.GetFullPath("../../../../HanLP.Net.Tests"))
-                .AddJsonFile("appsettings.json").Build();
-
-            var config = new HanLPConfiguration(configRoot, loggerFactory);
-
-            Assert.NotNull(config);
-            Assert.NotNull(config.FileConfig);
-            Assert.Equal(Path.Combine(config.DataRootPath, "data/dictionary/CoreNatureDictionary.txt"), config.FileConfig.CoreDictionaryPath);
+            Assert.NotNull(Config);
+            Assert.Equal(Path.Combine(Config.DataRootPath, "data/dictionary/CoreNatureDictionary.txt"),
+                Config.FileConfig.CoreDictionaryPath);
         }
     }
 }
