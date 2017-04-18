@@ -13,5 +13,8 @@ namespace HanLP.Net
         public HanLP(HanLPConfiguration config) {
 
         } 
+
+
+
     }
 }

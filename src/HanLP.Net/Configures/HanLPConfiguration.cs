@@ -15,26 +15,32 @@ namespace HanLP.Net
 
             Configuration = config;
             LoggerFactory = logFactory;
-
+            SetFileConfig();
         }
 
         public IConfiguration Configuration { get; set; }
 
-        public ILoggerFactory LoggerFactory { get; set; }
+        public ILoggerFactory LoggerFactory { get;  set; }
 
-        internal HanLPFileConfig FileConfig { get; set; } = new HanLPFileConfig();
+        public string DataRootPath { get; private set; }
+
+        public HanLPFileConfig FileConfig { get; set; } = new HanLPFileConfig();
 
 
-        private void SetFileConfig() {
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var isExistsDataDirectory = Directory.Exists(Path.Combine(currentDirectory, "data"));
-            if (!isExistsDataDirectory) {
-                throw new DirectoryNotFoundException("data directory not found");
-            }
+        protected virtual void SetFileConfig() {
+
             var section = Configuration.GetSection("HanLP.NET");
+            string root = null;
+            if (!string.IsNullOrEmpty(section["root"])) {
+                root = Path.GetFullPath(section["root"]);
+            } 
+            else {
+                root = Directory.GetCurrentDirectory();
+            }
+            DataRootPath = root;
+
             if (section != null) {
-                string root = section["root"].Replace("\\\\", "/");
-                if (!root.EndsWith("/")) root += "/";
+
                 FileConfig.CoreDictionaryPath = Path.Combine(root, string.IsNullOrEmpty(section["CoreDictionaryPath"]) ? FileConfig.CoreDictionaryPath : section["CoreDictionaryPath"]);
                 FileConfig.CoreDictionaryTransformMatrixDictionaryPath = Path.Combine(root, string.IsNullOrEmpty(section["CoreDictionaryTransformMatrixDictionaryPath"]) ? FileConfig.CoreDictionaryTransformMatrixDictionaryPath : section["CoreDictionaryTransformMatrixDictionaryPath"]);
                 FileConfig.BiGramDictionaryPath = Path.Combine(root, string.IsNullOrEmpty(section["BiGramDictionaryPath"]) ? FileConfig.BiGramDictionaryPath : section["BiGramDictionaryPath"]);
