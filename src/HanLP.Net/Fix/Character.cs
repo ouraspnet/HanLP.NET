@@ -8,6 +8,8 @@ namespace HanLP.Net.Fix
     /// </summary>
     public class Character
     {
+        public static char MAX_VALUE = '\uFFFF';
+
         public class UnicodeBlock
         {
             private static Dictionary<string, UnicodeBlock> map = new Dictionary<string, UnicodeBlock>(256);
@@ -24,6 +26,8 @@ namespace HanLP.Net.Fix
                 foreach (string alias in aliases)
                     map.Add(alias, this);
             }
+
+            
 
             public static UnicodeBlock BASIC_LATIN =
             new UnicodeBlock("BASIC_LATIN",
