@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace HanLP.Net.Utility
 {
-    public class Predefine
+    public static class Predefine
     {
         /// <summary>
         /// hanlp.properties的路径，一般情况下位于classpath目录中。
@@ -66,6 +67,8 @@ namespace HanLP.Net.Utility
         public static int MAX_SEGMENT_NUM = 10;
 
         public static int MAX_FREQUENCY = 25146057; // 现在总词频25146057
+
+        public static Logger logger = LogManager.GetLogger("HanLP");
 
         /// <summary>
         /// Smoothing 平滑因子
