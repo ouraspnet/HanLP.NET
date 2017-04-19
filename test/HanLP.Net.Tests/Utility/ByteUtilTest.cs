@@ -5,7 +5,7 @@ using System.IO;
 using Xunit;
 using HanLP.Net.Utility;
 
-namespace HanLP.Net.Tests.Algorithm
+namespace HanLP.Net.Tests.Utility
 {
     public class ByteUtilTest : TestBase
     {

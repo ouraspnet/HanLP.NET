@@ -30,4 +30,8 @@
     <PackageReference Include="xunit" Version="2.2.0-beta5-build3474" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Algorithm\" />
+  </ItemGroup>
+
 </Project>
