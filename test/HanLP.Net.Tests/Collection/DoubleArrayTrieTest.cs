@@ -20,30 +20,30 @@ namespace HanLP.Net.Tests.Collection
         };
 
 
-        //[Fact]
-        //public void BuildTest() {
-        //    DoubleArrayTrie<string> trie = new DoubleArrayTrie<string>();
+        [Fact]
+        public void BuildTest() {
+            DoubleArrayTrie<string> trie = new DoubleArrayTrie<string>();
 
-        //    var errorCount = trie.Build(_mockData);
+            var errorCount = trie.Build(_mockData.Keys.ToList(),_mockData.Values.ToList());
 
-        //    Assert.Equal(errorCount, 0);
+            Assert.Equal(errorCount, 0);
 
-        //    trie.Save(Path.Combine(Config.DataRootPath, _testFile));
-        //}
+            trie.Save(Path.Combine(Config.DataRootPath, _testFile));
+        }
 
-        //[Fact]
-        //public void LoadTest() {
-        //    var path = Path.Combine(Config.DataRootPath, _testFile);
-        //    if (!File.Exists(path)) {
-        //        BuildTest();
-        //    }
+        [Fact]
+        public void LoadTest() {
+            var path = Path.Combine(Config.DataRootPath, _testFile);
+            if (!File.Exists(path)) {
+                BuildTest();
+            }
 
-        //    DoubleArrayTrie<string> trie = new DoubleArrayTrie<string>();
+            DoubleArrayTrie<string> trie = new DoubleArrayTrie<string>();
 
-        //    trie.Load(path);
+            trie.Load(path);
 
-        //    Assert.Equal(trie.Size, 3);
-        //}
+            Assert.Equal(trie.Size, 3);
+        }
 
 
         [Fact]
