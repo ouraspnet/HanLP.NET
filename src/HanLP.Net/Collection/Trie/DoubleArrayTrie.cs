@@ -15,8 +15,8 @@ namespace HanLP.Net.Collection.Trie
     /// <typeparam name="T"></typeparam>
     public class DoubleArrayTrie<T> : ITrie<T>
     {
-        private static int BUF_SIZE = 16384;
-        private static int UNIT_SIZE = 8; // size of int + int
+        private const int BUF_SIZE = 16384;
+        private const int UNIT_SIZE = 8; // size of int + int
 
         private class Node
         {
@@ -26,19 +26,14 @@ namespace HanLP.Net.Collection.Trie
             public int right;
 
             public override string ToString() {
-                return "Node{" +
-                         "code=" + code +
-                         ", depth=" + depth +
-                         ", left=" + left +
-                         ", right=" + right +
-                         '}';
+                return $"Node{{code={code}, depth={depth}, left={left}, right={right}}}";
             }
         }
 
         protected int[] check;
         protected int[] bases;
 
-        private BitArray used;
+        private BitSet used;
 
         /// <summary>
         /// base 和 check 的大小
@@ -117,8 +112,7 @@ namespace HanLP.Net.Collection.Trie
         }
 
         private int Insert(List<Node> siblings) {
-            if (error_ < 0)
-                return 0;
+            if (error_ < 0) return 0;
 
             int begin = 0;
             int pos = Math.Max(siblings[0].code + 1, nextCheckPos) - 1;
@@ -133,8 +127,7 @@ namespace HanLP.Net.Collection.Trie
             while (true) {
                 pos++;
 
-                if (allocSize <= pos)
-                    Resize(pos + 1);
+                if (allocSize <= pos) Resize(pos + 1);
 
                 if (check[pos] != 0) {
                     nonzero_num++;
@@ -150,16 +143,11 @@ namespace HanLP.Net.Collection.Trie
                     Resize(begin + siblings[(siblings.Count - 1)].code + Character.MAX_VALUE);
                 }
 
-                //if (used[begin])
-                //   continue;
-                if (used[begin]) {
-                    continue;
-                }
+                if (used.Get(begin)) continue;
 
                 for (int i = 1; i < siblings.Count; i++)
                     if (check[begin + siblings[i].code] != 0)
                         goto outer;
-
                 break;
             }
 
@@ -180,7 +168,6 @@ namespace HanLP.Net.Collection.Trie
 
             for (int i = 0; i < siblings.Count; i++) {
                 check[begin + siblings[i].code] = begin;
-                //            System.out.println(this);
             }
 
             for (int i = 0; i < siblings.Count; i++) {
@@ -188,8 +175,9 @@ namespace HanLP.Net.Collection.Trie
 
                 if (Fetch(siblings[i], new_siblings) == 0)  // 一个词的终止且不为其他词的前缀
                 {
-                    bases[begin + siblings[i].code] = (value != null) ? (-value[siblings
-                            [i].left] - 1) : (-siblings[i].left - 1);
+                    bases[begin + siblings[i].code] = (value != null)
+                        ? (-value[siblings[i].left] - 1)
+                        : (-siblings[i].left - 1);
 
                     if (value != null && (-value[siblings[i].left] - 1) >= 0) {
                         error_ = -2;
@@ -208,7 +196,7 @@ namespace HanLP.Net.Collection.Trie
         public DoubleArrayTrie() {
             check = null;
             bases = null;
-            used = new BitArray(0);
+            used = new BitSet();
             size = 0;
             allocSize = 0;
             error_ = 0;
@@ -222,31 +210,16 @@ namespace HanLP.Net.Collection.Trie
             size = 0;
         }
 
-        public int GetUnitSize() {
-            return UNIT_SIZE;
-        }
+        public int UnitSize { get { return UNIT_SIZE; } }
 
-        public int GetSize() {
-            return size;
-        }
+        public int Size { get { return size; } }
 
-        public int GetTotalSize() {
-            return size * UNIT_SIZE;
-        }
+        public int TotalSize { get { return size * UNIT_SIZE; } }
 
-        public int GetNonzeroSize() {
-            int result = 0;
-            for (int i = 0; i < check.Length; ++i)
-                if (check[i] != 0)
-                    ++result;
-            return result;
-        }
+        public int NonzeroSize { get { return check.Count(x => x != 0); } }
 
         public int Build(List<string> keys, List<T> value) {
-            Debug.Assert(keys.Count == value.Count, "键的个数与值的个数不一样！");
-            Debug.Assert(keys.Count > 0, "键值个数为0！");
-            v = (T[])value.ToArray();
-            return Build(keys, null, null, keys.Count);
+            return Build(keys, value.ToArray());
         }
 
         public int Build(List<string> keys, T[] value) {
@@ -259,13 +232,13 @@ namespace HanLP.Net.Collection.Trie
         /// <summary>
         /// 构建DAT
         /// </summary>
-        /// <param name="entrySet">意此entrySet一定要是字典序的！否则会失败</param>
-        public int Build(List<KeyValuePair<string, T>> entrySet) {
-            var keyList = new List<string>(entrySet.Count);
-            var valueList = new List<T>(entrySet.Count);
-            foreach (var entry in entrySet) {
-                keyList.Add(entry.Key);
-                valueList.Add(entry.Value);
+        /// <param name="keyValueList">意此entrySet一定要是字典序的！否则会失败</param>
+        public int Build(List<KeyValuePair<string, T>> keyValueList) {
+            var keyList = new List<string>(keyValueList.Count);
+            var valueList = new List<T>(keyValueList.Count);
+            foreach (var item in keyValueList) {
+                keyList.Add(item.Key);
+                valueList.Add(item.Value);
             }
             return Build(keyList, valueList);
         }
@@ -273,51 +246,50 @@ namespace HanLP.Net.Collection.Trie
         /// <summary>
         /// 方便地构造一个双数组trie树
         /// </summary>
-        /// <param name="keyValueMap">升序键值对map</param>
+        /// <param name="keyValueDic">升序键值对map</param>
         /// <returns></returns>
-        public int Build(SortedDictionary<string, T> keyValueMap) {
-            Debug.Assert(keyValueMap != null);
-
-            var entrySet = keyValueMap.ToList();
-            return Build(entrySet);
+        public int Build(SortedDictionary<string, T> keyValueDic) {
+            Debug.Assert(keyValueDic != null);
+            var keyValueList = keyValueDic.ToList();
+            return Build(keyValueList);
         }
 
         /// <summary>
         /// 唯一的构建方法
         /// </summary>
-        /// <param name="_key"></param>
-        /// <param name="_length"></param>
-        /// <param name="_value"></param>
-        /// <param name="_keySize"></param>
+        /// <param name="key"></param>
+        /// <param name="length"></param>
+        /// <param name="value"></param>
+        /// <param name="keySize"></param>
         /// <returns></returns>
-        public int Build(List<string> _key, int[] _length, int[] _value,
-                         int _keySize) {
-            if (_keySize > _key.Count || _key == null)
-                return 0;
+        public int Build(List<string> key, int[] length, int[] value, int keySize) {
+            if (key == null || keySize > key.Count) return 0;
 
-            key = _key;
-            length = _length;
-            keySize = _keySize;
-            value = _value;
-            progress = 0;
+            this.key = key;
+            this.length = length;
+            this.keySize = keySize;
+            this.value = value;
+            this.progress = 0;
 
             Resize(65536 * 32); // 32个双字节
 
             bases[0] = 1;
             nextCheckPos = 0;
 
-            Node root_node = new Node();
-            root_node.left = 0;
-            root_node.right = keySize;
-            root_node.depth = 0;
-
+            Node rootNode = new Node() {
+                left = 0,
+                right = this.keySize,
+                depth = 0
+            };
             List<Node> siblings = new List<Node>();
-            Fetch(root_node, siblings);
+
+            Fetch(rootNode, siblings);
+
             Insert(siblings);
 
             used = null;
-            key = null;
-            length = null;
+            this.key = null;
+            this.length = null;
 
             return error_;
         }
@@ -327,8 +299,9 @@ namespace HanLP.Net.Collection.Trie
             size = (int)file.Length / UNIT_SIZE;
             check = new int[size];
             bases = new int[size];
-
-            using (var reader = IOUtil.NewInputStream(fileName, BUF_SIZE)) {
+            var sourceStream = new FileStream(fileName, FileMode.Open);
+            using (var sr = new StreamReader(sourceStream))
+            using (var reader = new BinaryReader(sr.BaseStream)) {
                 for (int i = 0; i < size; i++) {
                     bases[i] = ReadInt(reader);
                     check[i] = ReadInt(reader);
@@ -336,7 +309,7 @@ namespace HanLP.Net.Collection.Trie
             }
         }
 
-        private int ReadInt(StreamReader reader) {
+        private int ReadInt(BinaryReader reader) {
             int ch1 = reader.Read();
             int ch2 = reader.Read();
             int ch3 = reader.Read();
@@ -348,15 +321,18 @@ namespace HanLP.Net.Collection.Trie
 
         public bool Save(string fileName) {
             try {
-                using (var writer = IOUtil.NewOutputStream(fileName, BUF_SIZE)) {
-                    writer.Write(size);
-                    for (int i = 0; i < size; i++) {
-                        writer.Write(bases[i]);
-                        writer.Write(check[i]);
-                    }
+
+                StreamWriter sw = new StreamWriter(new FileStream(fileName, FileMode.Create));
+                BinaryWriter writer = new BinaryWriter(sw.BaseStream);
+                writer.Write(size);
+                for (int i = 0; i < size; i++) {
+                    writer.Write(bases[i]);
+                    writer.Write(check[i]);
                 }
+                writer.Dispose();
             }
-            catch (Exception) {
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
                 return false;
             }
             return true;
@@ -416,14 +392,17 @@ namespace HanLP.Net.Collection.Trie
 
         private bool LoadBaseAndCheck(string path) {
             try {
-                var reader = IOUtil.NewInputStream(path, BUF_SIZE);
-                size = ReadInt(reader);
-                bases = new int[size + 65535];
-                check = new int[size + 65535];
-                for (int i = 0; i < size; i++) {
-                    bases[i] = ReadInt(reader);
-                    check[i] = ReadInt(reader);
-                }
+                var sourceStream = new FileStream(path, FileMode.Open);
+                using (var sr = new StreamReader(sourceStream))
+                using (var reader = new BinaryReader(sr.BaseStream)) {
+                    size = ReadInt(reader);
+                    bases = new int[size + 65535];
+                    check = new int[size + 65535];
+                    for (int i = 0; i < size; i++) {
+                        bases[i] = ReadInt(reader);
+                        check[i] = ReadInt(reader);
+                    }
+                } 
             }
             catch (Exception) {
                 return false;
@@ -448,6 +427,7 @@ namespace HanLP.Net.Collection.Trie
             //using (var reader = IOUtil.NewInputStream(path, BUF_SIZE)) {
             //     reader.Read()
             //}
+            //TODO
             throw new NotImplementedException();
         }
 
