@@ -395,16 +395,17 @@ namespace HanLP.Net.Collection.Trie
                 var sourceStream = new FileStream(path, FileMode.Open);
                 using (var sr = new StreamReader(sourceStream))
                 using (var reader = new BinaryReader(sr.BaseStream)) {
-                    size = ReadInt(reader);
+                    size = reader.ReadInt32();
                     bases = new int[size + 65535];
                     check = new int[size + 65535];
                     for (int i = 0; i < size; i++) {
-                        bases[i] = ReadInt(reader);
-                        check[i] = ReadInt(reader);
+                        bases[i] = reader.ReadInt32();
+                        check[i] = reader.ReadInt32(); 
                     }
                 } 
             }
-            catch (Exception) {
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
                 return false;
             }
             return true;
