@@ -20,7 +20,7 @@ namespace HanLP.Net.Corpus.IO
         /// <param name="path"></param>
         /// <returns></returns>
         public static ByteArray CreateByteArray(string path) {
-            byte[] bytes = IOUtil.ReadBytes(path);
+            byte[] bytes = IOUtil.ReadBytesFromFile(path);
             if (bytes == null) return null;
             return new ByteArray(bytes);
         }
