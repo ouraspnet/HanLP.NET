@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using HanLP.Net.Corpus.IO;
 
 namespace HanLP.Net.Collection.Trie
 {
@@ -102,6 +103,47 @@ namespace HanLP.Net.Collection.Trie
             }
         }
 
+        //public void Load(ByteArray byteArray, T t) {
+        //    int size = byteArray.NextInt();
+        //    array = new sunit_t[size];
+        //    for (int i = 0; i < size; i++) {
+        //       var base1 = byteArray.NextInt();
+        //        var check = byteArray.NextInt();
+        //        array[]
+        //    }
+
+
+        //    const int int32Size = sizeof(int);
+        //    const int elementSize = int32Size * 2;
+        //    var fileSizeInBytes = sourceStream.Length;
+        //    var numberOfElements = fileSizeInBytes / elementSize;
+        //    array = new sunit_t[numberOfElements];
+        //    using (var sr = new StreamReader(sourceStream))
+        //    using (var br = new BinaryReader(sr.BaseStream)) {
+        //        var buffersize = elementSize * 1;
+        //        var buffer = new byte[elementSize * 1];
+        //        var index = 0;
+        //        for (long j = 0; j <= numberOfElements / 1; j++) {
+        //            var numberOfReadBytes = br.Read(buffer, 0, buffersize);
+        //            if (numberOfReadBytes == buffersize) {
+        //                for (int i = 0; i < 1; i++, index++) {
+        //                    var base1 = BitConverter.ToInt32(buffer, elementSize * i);
+        //                    var check = BitConverter.ToInt32(buffer, (elementSize * i) + int32Size);
+        //                    array[index] = new sunit_t(base1, check);
+        //                }
+        //            }
+        //            else {
+        //                for (int i = 0; i < numberOfReadBytes / elementSize; i++) {
+        //                    var base1 = BitConverter.ToInt32(buffer, elementSize * i);
+        //                    var check = BitConverter.ToInt32(buffer, (elementSize * i) + int32Size);
+        //                    array[index++] = new sunit_t(base1, check);
+        //                }
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
+
         public void Load(Stream sourceStream, IList<T> valList, int numberOfElementsInChunk = 2048) {
             Load(sourceStream, numberOfElementsInChunk);
             array_t = valList.ToArray();
@@ -144,7 +186,6 @@ namespace HanLP.Net.Collection.Trie
             }
             return default(T);
         }
-
 
         public IDictionary<string, T> SearchTByPerfectMatch(string key) {
             var dic = new Dictionary<string, T>();
@@ -652,14 +693,20 @@ namespace HanLP.Net.Collection.Trie
         }
 
         public void Save(string file) {
+            Save(file, null);
+        }
+
+        public void Save(string file, Action<BinaryWriter> attachment) {
             StreamWriter sw = new StreamWriter(new FileStream(file, FileMode.Create));
             BinaryWriter bw = new BinaryWriter(sw.BaseStream);
+
+            attachment?.Invoke(bw);
 
             long r_length = array.LongLength;
             while (array[r_length - 1] == null) {
                 r_length--;
             }
-
+            //bw.Write((int)r_length); //write size
             for (long i = 0; i < r_length; i++) {
                 if (array[i] == null) {
                     bw.Write(0);

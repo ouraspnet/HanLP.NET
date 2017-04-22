@@ -233,7 +233,7 @@ namespace HanLP.Net.Collection.Trie
         /// 构建DAT
         /// </summary>
         /// <param name="keyValueList">意此entrySet一定要是字典序的！否则会失败</param>
-        public int Build(List<KeyValuePair<string, T>> keyValueList) {
+        public int Build(SortedDictionary<string, T> keyValueList) {
             var keyList = new List<string>(keyValueList.Count);
             var valueList = new List<T>(keyValueList.Count);
             foreach (var item in keyValueList) {
@@ -243,18 +243,7 @@ namespace HanLP.Net.Collection.Trie
             return Build(keyList, valueList);
         }
 
-        /// <summary>
-        /// 方便地构造一个双数组trie树
-        /// </summary>
-        /// <param name="keyValueDic">升序键值对map</param>
-        /// <returns></returns>
-        public int Build(SortedDictionary<string, T> keyValueDic) {
-            Debug.Assert(keyValueDic != null);
-            var keyValueList = keyValueDic.ToList();
-            return Build(keyValueList);
-        }
-
-        /// <summary>
+          /// <summary>
         /// 唯一的构建方法
         /// </summary>
         /// <param name="key"></param>
@@ -319,11 +308,12 @@ namespace HanLP.Net.Collection.Trie
             return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
         }
 
-        public bool Save(string fileName) {
+        public bool Save(string fileName, Action<BinaryWriter> writeAction = null) {
             try {
 
                 StreamWriter sw = new StreamWriter(new FileStream(fileName, FileMode.Create));
                 BinaryWriter writer = new BinaryWriter(sw.BaseStream);
+                writeAction?.Invoke(writer);
                 writer.Write(size);
                 for (int i = 0; i < size; i++) {
                     writer.Write(bases[i]);
