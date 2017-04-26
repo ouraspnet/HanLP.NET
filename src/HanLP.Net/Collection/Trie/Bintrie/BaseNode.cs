@@ -6,36 +6,37 @@ using HanLP.Net.Corpus.IO;
 
 namespace HanLP.Net.Collection.Trie.Bintrie
 {
-    public abstract partial class BaseNode<T> : IComparable<BaseNode<T>>
+    public abstract partial class BaseNode< T> : IComparable<BaseNode<T>>
     {
         private static Status[] Array_Status = Enum.GetValues(typeof(Status)) as Status[];
 
         protected BaseNode<T>[] _child;
 
-        protected Status _status;
+        public Status NodeStatus { get; set; }
 
         protected char _c;
 
-        protected T Value { get; set; }
+        public T Value { get; set; }
 
         public BaseNode<T> Transition(char[] path, int begin) {
             BaseNode<T> cur = this;
             for (int i = begin; i < path.Length; ++i) {
-                cur = cur.getChild(path[i]);
-                if (cur == null || cur._status == Status.UNDEFINED_0) return null;
+                cur = cur.GetChild(path[i]);
+                if (cur == null || cur.NodeStatus == Status.UNDEFINED_0) return null;
             }
             return cur;
         }
 
-        protected abstract bool AddChild(BaseNode<T> node);
+        public abstract bool AddChild(BaseNode<T> node);
 
-        protected bool HasChild(char c) {
-            return getChild(c) != null;
+        public bool HasChild(char c) {
+            return GetChild(c) != null;
         }
+                
 
-        public abstract BaseNode<T> getChild(char c);
+        public abstract BaseNode<T> GetChild(char c);
 
-        protected char GetChar() {
+        public char GetChar() {
             return _c;
         }
 
@@ -49,13 +50,9 @@ namespace HanLP.Net.Collection.Trie.Bintrie
             return 0;
         }
 
-        public Status GetStatus() {
-            return _status;
-        }
-
-        protected void Walk(StringBuilder sb, Dictionary<String, T> entrySet) {
+        public void Walk(StringBuilder sb, Dictionary<String, T> entrySet) {
             sb.Append(_c);
-            if (_status == Status.WORD_MIDDLE_2 || _status == Status.WORD_END_3) {
+            if (NodeStatus == Status.WORD_MIDDLE_2 || NodeStatus == Status.WORD_END_3) {
                 entrySet.Add(sb.ToString(), Value);
             }
             if (_child == null) return;
@@ -68,7 +65,7 @@ namespace HanLP.Net.Collection.Trie.Bintrie
         protected void WalkToSave(Stream outStream) {
             using (BinaryWriter writer = new BinaryWriter(outStream)) {
                 writer.Write(_c);
-                writer.Write((int)_status);
+                writer.Write((int)NodeStatus);
                 int childSize = 0;
                 if (_child != null) childSize = _child.Length;
                 writer.Write(childSize);
@@ -81,8 +78,8 @@ namespace HanLP.Net.Collection.Trie.Bintrie
 
         protected void WalkToSave(BinaryWriter writer) {
             writer.Write(_c);
-            writer.Write((int)_status);
-            if (_status == Status.WORD_END_3 || _status == Status.WORD_MIDDLE_2) {
+            writer.Write((int)NodeStatus);
+            if (NodeStatus == Status.WORD_END_3 || NodeStatus == Status.WORD_MIDDLE_2) {
                 //writer.writeObject(value);
             }
             int childSize = 0;
@@ -96,8 +93,8 @@ namespace HanLP.Net.Collection.Trie.Bintrie
 
         protected void WalkToLoad(ByteArray byteArray, ValueArray<T> valueArray) {
             _c = byteArray.NextChar();
-            _status = Array_Status[byteArray.NextInt()];
-            if (_status == Status.WORD_END_3 || _status == Status.WORD_MIDDLE_2) {
+            NodeStatus = Array_Status[byteArray.NextInt()];
+            if (NodeStatus == Status.WORD_END_3 || NodeStatus == Status.WORD_MIDDLE_2) {
                 Value = valueArray.NextValue();
             }
             int childSize = byteArray.NextInt();
@@ -110,8 +107,8 @@ namespace HanLP.Net.Collection.Trie.Bintrie
 
         protected void WalkToLoad(BinaryReader byteArray) {
             _c = byteArray.ReadChar();
-            _status = Array_Status[byteArray.ReadInt32()];
-            if (_status == Status.WORD_END_3 || _status == Status.WORD_MIDDLE_2) {
+            NodeStatus = Array_Status[byteArray.ReadInt32()];
+            if (NodeStatus == Status.WORD_END_3 || NodeStatus == Status.WORD_MIDDLE_2) {
                 //Value = (T) byteArray..readobj();
             }
             int childSize = byteArray.ReadInt32();
@@ -145,7 +142,7 @@ namespace HanLP.Net.Collection.Trie.Bintrie
         public override String ToString() {
             return "BaseNode{" +
                     "child=" + _child.Length +
-                    ", status=" + _status +
+                    ", status=" + NodeStatus +
                     ", c=" + _c +
                     ", value=" + Value +
                     '}';
