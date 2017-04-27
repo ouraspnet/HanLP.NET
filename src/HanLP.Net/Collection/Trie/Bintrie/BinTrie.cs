@@ -24,12 +24,9 @@ namespace HanLP.Net.Collection.Trie.Bintrie
             NodeStatus = Status.NOT_WORD_1;
         }
 
-        /**
-         * 插入一个词
-         *
-         * @param key
-         * @param value
-         */
+        /// <summary>
+        /// 插入一个词
+        /// </summary>
         public void Add(String key, T value) {
             if (key.Length == 0) return;      
             char[] chars = key.ToCharArray();
