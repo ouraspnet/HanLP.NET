@@ -45,7 +45,6 @@ namespace HanLP.Net.Collection.Trie.Bintrie
         }
 
 
-
         public void put(char[] key, T value) {          
             for (int i = 0; i < key.Length - 1; ++i) {
                 // 除了最后一个字外，都是继续
@@ -58,11 +57,11 @@ namespace HanLP.Net.Collection.Trie.Bintrie
             }
         }
 
-        /**
-         * 设置键值对，当键不存在的时候会自动插入
-         * @param key
-         * @param value
-         */
+        /// <summary>
+        /// 设置键值对，当键不存在的时候会自动插入
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void set(String key, T value) {
             put(key.ToCharArray(), value);
         }
